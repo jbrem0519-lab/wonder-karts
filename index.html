@@ -1,38 +1,30 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#171c39"><title>Wonder Karts — Enchanted Forest</title><style>*{box-sizing:border-box;touch-action:none}body{margin:0;overflow:hidden;background:#161b35;color:white;font-family:system-ui,Arial,sans-serif}canvas{display:block}#hud{position:fixed;top:env(safe-area-inset-top,8px);left:12px;right:12px;display:flex;justify-content:space-between;pointer-events:none;text-shadow:0 2px 5px #101025;font-weight:900}#hud>div{background:#19183aab;padding:9px 13px;border:2px solid #ffffff45;border-radius:15px}#hud small{display:block;font-size:10px;letter-spacing:1px;color:#d7d5ff}#hud b{font-size:21px}#controls{position:fixed;bottom:max(16px,env(safe-area-inset-bottom));left:14px;right:14px;display:flex;justify-content:space-between;pointer-events:none}.cluster{display:flex;gap:10px;align-items:end}#pedals{flex-direction:row;align-items:center;justify-content:flex-end;gap:12px}#joystick{pointer-events:auto;position:relative;width:128px;height:128px;border-radius:50%;background:#25275dbd;border:3px solid #ffffffa8;box-shadow:inset 0 0 0 17px #ffffff12,0 5px 0 #11133399;touch-action:none;user-select:none;-webkit-user-select:none}#stick{position:absolute;left:50%;top:50%;width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,#ffe487,#f3a83b);border:3px solid #fff3c5;box-shadow:0 3px 10px #0006;transform:translate(-50%,-50%);pointer-events:none}#joystick:after{content:"STEER";position:absolute;left:50%;top:-21px;transform:translateX(-50%);font-size:11px;font-weight:900;color:#fff;text-shadow:0 2px 4px #000}.ctrl{pointer-events:auto;border:2px solid #ffffff99;background:#25275dc9;color:white;border-radius:22px;width:75px;height:76px;font-size:28px;font-weight:900;box-shadow:0 5px 0 #11133399;user-select:none;-webkit-user-select:none}.ctrl:active,.ctrl.active{background:#f4b33b;color:#282344;transform:translateY(3px)}#gas{background:#43a765db;width:92px;height:92px;font-size:17px}#brake{font-size:15px;width:72px;height:70px}#intro{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#161a40ec,#302057dd);z-index:3;padding:20px}#intro .panel{max-width:520px;text-align:center;background:#24244cf2;padding:25px;border:3px solid #ffe08b;border-radius:24px;box-shadow:0 12px 50px #090c2c}h1{font-size:clamp(29px,6vw,52px);line-height:1;margin:0;color:#ffcb54;text-shadow:3px 4px #6a3480}h2{font-size:18px;color:#c9f4d2}p{line-height:1.5}#start{font-size:20px;background:#65d889;color:#10293a;border:0;border-radius:15px;padding:13px 40px;font-weight:900;cursor:pointer}#message{position:fixed;top:30%;left:0;right:0;text-align:center;font-size:50px;font-weight:1000;color:#ffe35c;text-shadow:3px 5px #4a306c;pointer-events:none}#hint{font-size:12px;opacity:.8;margin-top:14px}@media(max-height:450px){#pedals{gap:6px}#gas{height:65px!important}#brake{height:52px!important}#joystick{width:105px;height:105px}#stick{width:52px;height:52px}#controls{bottom:max(9px,env(safe-area-inset-bottom));left:max(14px,env(safe-area-inset-left));right:max(14px,env(safe-area-inset-right))}#hud>div{padding:4px 9px}#hud b{font-size:16px}.ctrl{height:65px!important}#gas{width:86px!important}#brake{width:72px!important}}@media(max-width:650px){.ctrl{width:63px;height:67px}#gas{width:78px;height:78px}#brake{width:64px;height:63px}#hud b{font-size:16px}#hud>div{padding:6px 9px}}@media(orientation:portrait){#portrait{display:flex!important}}#portrait{display:none;position:fixed;inset:0;z-index:5;align-items:center;justify-content:center;text-align:center;font-size:23px;font-weight:900;background:#171b37f5;padding:30px;pointer-events:none}#throttle-pad{pointer-events:auto;position:relative;display:flex;align-items:center;gap:0;touch-action:none;user-select:none}
-#drift{pointer-events:none;display:flex;align-items:center;justify-content:center;width:75px;height:82px;border-radius:22px 0 0 22px;border:3px solid #ffe6ff;border-right:0;background:linear-gradient(140deg,#9257c7,#5c377f);color:white;font-weight:900;font-size:12px;box-shadow:0 5px 0 #2d1749;touch-action:none;user-select:none}#drift.active{background:linear-gradient(140deg,#ffe58b,#ed8a36);color:#382247;box-shadow:0 0 16px #ffc455}#boostmeter{position:fixed;left:50%;top:60px;transform:translateX(-50%);width:135px;height:9px;background:#19183abb;border-radius:8px;border:1px solid #ffffff88;overflow:hidden;pointer-events:none}#boostfill{height:100%;width:0;background:linear-gradient(90deg,#9d6df5,#ffe06c)}#turbo-status{position:fixed;top:76px;left:50%;transform:translateX(-50%);font-size:22px;font-weight:1000;color:#ffe76d;text-shadow:0 2px 8px #7e2a9b;pointer-events:none;opacity:0;z-index:2}#turbo-status.on{opacity:1;animation:turboPulse .35s infinite alternate}@keyframes turboPulse{to{transform:translateX(-50%) scale(1.13)}}@media(max-height:450px){#turbo-status{top:56px;font-size:17px}}@media(max-height:450px){#drift{width:57px;height:65px;font-size:10px}#boostmeter{top:43px}}#throttle{position:relative;pointer-events:auto;width:92px;height:min(205px,48vh);min-height:138px;border:3px solid #ffffffa8;border-radius:35px;background:linear-gradient(to bottom,#2b9655b8 0%,#2b9655b8 37%,#303454e8 43%,#303454e8 57%,#b16a45b8 63%,#b16a45b8 100%);box-shadow:inset 0 0 0 5px #ffffff10,0 5px 0 #11133399;touch-action:none;user-select:none;-webkit-user-select:none}#throttle:before{content:"";position:absolute;top:50%;left:7px;right:7px;height:2px;background:#ffffff99}#throttle-thumb{position:absolute;top:50%;left:50%;width:72px;height:47px;transform:translate(-50%,-50%);border-radius:22px;border:3px solid #fff4cb;background:linear-gradient(135deg,#ffe487,#f3a83b);box-shadow:0 3px 9px #0008;pointer-events:none}.throttle-label{position:absolute;left:0;right:0;text-align:center;font-size:11px;font-weight:900;pointer-events:none;text-shadow:0 2px 3px #0009}.throttle-label.top{top:9px}.throttle-label.middle{top:50%;transform:translateY(-50%);font-size:10px;opacity:.65}.throttle-label.bottom{bottom:9px}@media(max-height:450px){#throttle{height:min(165px,46vh);min-height:115px;width:79px}#throttle-thumb{width:63px;height:39px}.throttle-label{font-size:9px}} </style></head><body><div id="hud"><div><small>WONDER KARTS</small><b id="lap">LAP 1 / 3</b></div><div><small>ENCHANTED FOREST • COLLISIONS ON</small><b id="time">00:00.0</b></div><div><small>SPEED</small><b id="speed">0</b> <small style="display:inline">km/h</small></div></div><div id="boostmeter"><div id="boostfill"></div></div><div id="turbo-status">⚡ TURBO!</div><div id="portrait">↻ Rotate your phone sideways to race!</div><div id="message"></div><div id="controls"><div class="cluster"><div id="joystick" role="group" aria-label="Analog steering joystick"><div id="stick"></div></div></div><div class="cluster" id="pedals"><div id="throttle-pad"><div id="drift" aria-hidden="true">⇦ DRIFT</div><div id="throttle" aria-label="Slide up to accelerate, center to brake, down to reverse"><div class="throttle-label top">▲ GAS</div><div class="throttle-label middle">BRAKE</div><div class="throttle-label bottom">▼ REV</div><div id="throttle-thumb"></div></div></div></div></div><div id="intro"><div class="panel"><h1>WONDER<br>KARTS!</h1><h2>✦ Enchanted Forest ✦</h2><p>Welcome to our first playable prototype! Race a winding forest circuit past giant mushrooms, glowing crystals, and silly trees.</p><p>📱 Slide the right lever for speed. While accelerating, slide your throttle thumb LEFT to drift; slide RIGHT to release for a mini turbo. Steer with the left joystick.<br>⌨️ PC: Arrow keys or WASD. Space to brake; Shift to drift.</p><button id="start">START RACING!</button><div id="hint">Version 1.7.1 • Startup Fix • Internet needed to load 3D engine</div></div></div><script type="module">
+#drift{pointer-events:none;display:flex;align-items:center;justify-content:center;width:75px;height:82px;border-radius:22px 0 0 22px;border:3px solid #ffe6ff;border-right:0;background:linear-gradient(140deg,#9257c7,#5c377f);color:white;font-weight:900;font-size:12px;box-shadow:0 5px 0 #2d1749;touch-action:none;user-select:none}#drift.active{background:linear-gradient(140deg,#ffe58b,#ed8a36);color:#382247;box-shadow:0 0 16px #ffc455}#boostmeter{position:fixed;left:50%;top:60px;transform:translateX(-50%);width:135px;height:9px;background:#19183abb;border-radius:8px;border:1px solid #ffffff88;overflow:hidden;pointer-events:none}#boostfill{height:100%;width:0;background:linear-gradient(90deg,#9d6df5,#ffe06c)}#turbo-status{position:fixed;top:76px;left:50%;transform:translateX(-50%);font-size:22px;font-weight:1000;color:#ffe76d;text-shadow:0 2px 8px #7e2a9b;pointer-events:none;opacity:0;z-index:2}#turbo-status.on{opacity:1;animation:turboPulse .35s infinite alternate}@keyframes turboPulse{to{transform:translateX(-50%) scale(1.13)}}@media(max-height:450px){#turbo-status{top:56px;font-size:17px}}@media(max-height:450px){#drift{width:57px;height:65px;font-size:10px}#boostmeter{top:43px}}#throttle{position:relative;pointer-events:auto;width:92px;height:min(205px,48vh);min-height:138px;border:3px solid #ffffffa8;border-radius:35px;background:linear-gradient(to bottom,#2b9655b8 0%,#2b9655b8 37%,#303454e8 43%,#303454e8 57%,#b16a45b8 63%,#b16a45b8 100%);box-shadow:inset 0 0 0 5px #ffffff10,0 5px 0 #11133399;touch-action:none;user-select:none;-webkit-user-select:none}#throttle:before{content:"";position:absolute;top:50%;left:7px;right:7px;height:2px;background:#ffffff99}#throttle-thumb{position:absolute;top:50%;left:50%;width:72px;height:47px;transform:translate(-50%,-50%);border-radius:22px;border:3px solid #fff4cb;background:linear-gradient(135deg,#ffe487,#f3a83b);box-shadow:0 3px 9px #0008;pointer-events:none}.throttle-label{position:absolute;left:0;right:0;text-align:center;font-size:11px;font-weight:900;pointer-events:none;text-shadow:0 2px 3px #0009}.throttle-label.top{top:9px}.throttle-label.middle{top:50%;transform:translateY(-50%);font-size:10px;opacity:.65}.throttle-label.bottom{bottom:9px}@media(max-height:450px){#throttle{height:min(165px,46vh);min-height:115px;width:79px}#throttle-thumb{width:63px;height:39px}.throttle-label{font-size:9px}} </style></head><body><div id="hud"><div><small>WONDER KARTS</small><b id="lap">LAP 1 / 3</b></div><div><small>ENCHANTED FOREST • COLLISIONS ON</small><b id="time">00:00.0</b></div><div><small>SPEED</small><b id="speed">0</b> <small style="display:inline">km/h</small></div></div><div id="boostmeter"><div id="boostfill"></div></div><div id="turbo-status">⚡ TURBO!</div><div id="portrait">↻ Rotate your phone sideways to race!</div><div id="message"></div><div id="controls"><div class="cluster"><div id="joystick" role="group" aria-label="Analog steering joystick"><div id="stick"></div></div></div><div class="cluster" id="pedals"><div id="throttle-pad"><div id="drift" aria-hidden="true">⇦ DRIFT</div><div id="throttle" aria-label="Slide up to accelerate, center to brake, down to reverse"><div class="throttle-label top">▲ GAS</div><div class="throttle-label middle">BRAKE</div><div class="throttle-label bottom">▼ REV</div><div id="throttle-thumb"></div></div></div></div></div><div id="intro"><div class="panel"><h1>WONDER<br>KARTS!</h1><h2>✦ Enchanted Forest ✦</h2><p>Welcome to our first playable prototype! Race a winding forest circuit past giant mushrooms, glowing crystals, and silly trees.</p><p>📱 Slide the right lever for speed. While accelerating, slide your throttle thumb LEFT to drift; slide RIGHT to release for a mini turbo. Steer with the left joystick.<br>⌨️ PC: Arrow keys or WASD. Space to brake; Shift to drift.</p><button id="start">START RACING!</button><div id="hint">Version 1.8 • First Real 3D Kart Model • Internet needed to load 3D engine</div></div></div><script>
+window.addEventListener('error',function(e){const box=document.getElementById('hint');if(box){box.textContent='Game error: '+(e.message||'Unknown error');box.style.color='#ff9e9e'}});
+window.addEventListener('unhandledrejection',function(e){const box=document.getElementById('hint');if(box){box.textContent='Loading error: '+String(e.reason).slice(0,160);box.style.color='#ff9e9e'}});
+</script><script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x8cc9ee);scene.fog=new THREE.FogExp2(0xadd9ed,.0045);
-const camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,.1,650);const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;document.body.prepend(renderer.domElement);
+import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/loaders/GLTFLoader.js';
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x8cc9ee);scene.fog=new THREE.FogExp2(0x8cc9ee,.006);
+const camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,.1,650);const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=false;document.body.prepend(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xe8efff,0x648044,2.1));const sun=new THREE.DirectionalLight(0xfff0c3,2.4);sun.position.set(-70,110,40);scene.add(sun);
-renderer.outputColorSpace=THREE.SRGBColorSpace;
-renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.36;
 const mat=(c)=>new THREE.MeshLambertMaterial({color:c,flatShading:true});const grass=mat(0x68ac65),roadmat=mat(0x756477),edgeA=mat(0xffd77d),edgeB=mat(0xffffff),brown=mat(0x805037),leaf=mat(0x4e9a57),leaf2=mat(0x65b94c),pink=mat(0xe875b6),red=mat(0xd9576c),purple=mat(0x9c6bd8),white=mat(0xf7e8cb);
-// Atmospheric fairy-glow lights.
-const fairyLight=new THREE.PointLight(0xffa5dc,35,95,2);fairyLight.position.set(20,18,25);scene.add(fairyLight);
-const ground=new THREE.Mesh(new THREE.PlaneGeometry(1400,1400),grass);ground.rotation.x=-Math.PI/2;ground.position.y=-.35;scene.add(ground);ground.receiveShadow=true;
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(1400,1400),grass);ground.rotation.x=-Math.PI/2;ground.position.y=-.35;scene.add(ground);
 const trackPoints=[];const N=22;for(let i=0;i<N;i++){const a=i/N*Math.PI*2;const r=105+19*Math.sin(a*3)+10*Math.cos(a*5);trackPoints.push(new THREE.Vector3(Math.cos(a)*r,0,Math.sin(a)*(r*.74)));}const curve=new THREE.CatmullRomCurve3(trackPoints,true,'catmullrom',.45);const segments=420,width=15;const samples=[];for(let i=0;i<segments;i++){const t=i/segments,p=curve.getPointAt(t),tan=curve.getTangentAt(t).normalize(),normal=new THREE.Vector3(-tan.z,0,tan.x);samples.push({p,tan,normal});}
 function ribbon(offset,w,material,y){let verts=[],indices=[];for(let i=0;i<=segments;i++){const s=samples[i%segments];for(const side of [-1,1]){const p=s.p.clone().addScaledVector(s.normal,offset+side*w/2);verts.push(p.x,y,p.z);}if(i<segments){const j=i*2;indices.push(j,j+1,j+2,j+1,j+3,j+2);}}const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));geo.setIndex(indices);geo.computeVertexNormals();const mesh=new THREE.Mesh(geo,material);scene.add(mesh);return mesh;}
-// Painted, subtly grainy road texture: a visible improvement over flat color.
-const asphaltCanvas=document.createElement('canvas');asphaltCanvas.width=256;asphaltCanvas.height=256;
-const asphaltCtx=asphaltCanvas.getContext('2d');asphaltCtx.fillStyle='#746c7b';asphaltCtx.fillRect(0,0,256,256);
-let textureSeed=331;function texRand(){textureSeed=(textureSeed*1664525+1013904223)>>>0;return textureSeed/4294967296;}
-for(let i=0;i<3800;i++){const v=95+Math.floor(texRand()*80);asphaltCtx.fillStyle=`rgba(${v},${v},${v+8},${.07+texRand()*.13})`;asphaltCtx.fillRect(texRand()*256,texRand()*256,1+texRand()*3,1+texRand()*3);}
-const asphaltTex=new THREE.CanvasTexture(asphaltCanvas);asphaltTex.wrapS=asphaltTex.wrapT=THREE.RepeatWrapping;asphaltTex.repeat.set(2,22);asphaltTex.colorSpace=THREE.SRGBColorSpace;
-const asphaltMat=new THREE.MeshLambertMaterial({map:asphaltTex,side:THREE.DoubleSide});
-ribbon(0,width,asphaltMat,.015);ribbon(-width/2,.9,edgeA,.027);ribbon(width/2,.9,edgeA,.027);for(let i=0;i<segments;i+=11){const s=samples[i],p=s.p.clone();p.y=.06;const dash=new THREE.Mesh(new THREE.BoxGeometry(.23,.03,2.7),white);dash.position.copy(p);dash.rotation.y=Math.atan2(s.tan.x,s.tan.z);scene.add(dash);}
+const roadCanvas=document.createElement('canvas');roadCanvas.width=128;roadCanvas.height=128;
+const rc=roadCanvas.getContext('2d');rc.fillStyle='#77707d';rc.fillRect(0,0,128,128);
+for(let i=0;i<1300;i++){const n=(i*47)%128,m=(i*73)%128;rc.fillStyle=i%3?'#7d7782':'#67616e';rc.fillRect(n,m,1,1)}
+const roadTex=new THREE.CanvasTexture(roadCanvas);roadTex.wrapS=roadTex.wrapT=THREE.RepeatWrapping;roadTex.repeat.set(2,18);
+const texturedRoad=new THREE.MeshLambertMaterial({map:roadTex,side:THREE.DoubleSide});
+ribbon(0,width,texturedRoad,.015);ribbon(-width/2,.9,edgeA,.027);ribbon(width/2,.9,edgeA,.027);for(let i=0;i<segments;i+=11){const s=samples[i],p=s.p.clone();p.y=.06;const dash=new THREE.Mesh(new THREE.BoxGeometry(.23,.03,2.7),white);dash.position.copy(p);dash.rotation.y=Math.atan2(s.tan.x,s.tan.z);scene.add(dash);}
 function box(w,h,d,m,x,y,z,parent=scene){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);parent.add(o);return o;}
 function cylinder(rt,rb,h,m,x,y,z,parent=scene,n=7){const o=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,n),m);o.position.set(x,y,z);parent.add(o);return o;}
 function sphere(r,m,x,y,z,parent=scene,n=8){const o=new THREE.Mesh(new THREE.IcosahedronGeometry(r,1),m);o.position.set(x,y,z);parent.add(o);return o;}
 const obstacles=[];function addObstacle(x,z,r){obstacles.push({x,z,r});}
 let impactCooldown=0;let crashNotice=0;
 let seed=91;function rand(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}
-for(let i=0;i<280;i++){const x=(rand()-.5)*370,z=(rand()-.5)*320;let dist=1e5;for(let k=0;k<segments;k+=3){const p=samples[k].p;dist=Math.min(dist,(p.x-x)**2+(p.z-z)**2);}if(dist<230)continue;const type=rand();if(type<.60){const h=5+rand()*11;cylinder(.7,1.3,h,brown,x,h/2,z);addObstacle(x,z,2.5);const canopy=rand()<.5?leaf:leaf2;
-sphere(3.7+rand()*1.6,canopy,x,h+.5,z);
-sphere(2.8,leaf2,x-2.2,h-1,z+.9);
-sphere(2.7,canopy,x+2.5,h-1.5,z-1.3);
-sphere(2.3,leaf2,x,h+3.4,z);
-const branch=cylinder(.27,.45,4.1,brown,x+1.4,h-1.1,z);branch.rotation.z=-.65;}else if(type<.84){const h=2+rand()*4;cylinder(.6,.9,h,white,x,h/2,z);addObstacle(x,z,2.25);const cap=new THREE.Mesh(new THREE.SphereGeometry(2.6+rand()*1.3,10,5,0,Math.PI*2,0,Math.PI*.56),rand()<.5?red:purple);cap.position.set(x,h+1,z);scene.add(cap);for(let j=0;j<4;j++)sphere(.28,white,x+(rand()-.5)*2,h+1.3,z+(rand()-.5)*2);}else{const c=new THREE.Mesh(new THREE.OctahedronGeometry(1.1+rand()*1.2),mat(rand()<.5?0x8af2ff:0xffa6ed));c.position.set(x,1.7,z);scene.add(c);addObstacle(x,z,2.0);}}
+for(let i=0;i<280;i++){const x=(rand()-.5)*370,z=(rand()-.5)*320;let dist=1e5;for(let k=0;k<segments;k+=3){const p=samples[k].p;dist=Math.min(dist,(p.x-x)**2+(p.z-z)**2);}if(dist<230)continue;const type=rand();if(type<.60){const h=5+rand()*11;cylinder(.7,1.3,h,brown,x,h/2,z);addObstacle(x,z,2.5);sphere(3.3+rand()*2,rand()<.5?leaf:leaf2,x,h+1,z);sphere(2.4,leaf2,x+2,h-1,z+1);}else if(type<.84){const h=2+rand()*4;cylinder(.6,.9,h,white,x,h/2,z);addObstacle(x,z,2.25);const cap=new THREE.Mesh(new THREE.ConeGeometry(2.6+rand()*1.3,2.5,8),rand()<.5?red:purple);cap.position.set(x,h+1,z);scene.add(cap);for(let j=0;j<4;j++)sphere(.28,white,x+(rand()-.5)*2,h+1.3,z+(rand()-.5)*2);}else{const c=new THREE.Mesh(new THREE.OctahedronGeometry(1.1+rand()*1.2),mat(rand()<.5?0x8af2ff:0xffa6ed));c.position.set(x,1.7,z);scene.add(c);addObstacle(x,z,2.0);}}
 // Roadside collision test objects: visibly solid trunks beside a broad section of road.
 for(const idx of [30, 110, 200, 310, 430, 540]){
  const sample=samples[idx%segments];
@@ -50,79 +42,33 @@ for(const idx of [30, 110, 200, 310, 430, 540]){
  sphere(4.2,leaf,x,9,z);
  addObstacle(x,z,3.0);
 }
-// Enhanced-retro roadside details: low-poly flowers, luminous mushrooms,
-// scattered rocks and magical fireflies. Decorative objects do not block driving.
-const deco=new THREE.Group();scene.add(deco);
-const glowPink=new THREE.MeshBasicMaterial({color:0xff81d4});
-const glowCyan=new THREE.MeshBasicMaterial({color:0x7af5ed});
-const flowerYellow=mat(0xffd969),flowerBlue=mat(0x91a7fa);
-const stone=mat(0x8196a2),stemMat=mat(0xe6dfc8);
-const flowerGeo=new THREE.OctahedronGeometry(.32,0);
-const rockGeo=new THREE.DodecahedronGeometry(1,0);
-const capGeo=new THREE.ConeGeometry(1,1.25,7);
-const stemGeo=new THREE.CylinderGeometry(.18,.28,1.25,6);
-let decorSeed=718271;function dRand(){decorSeed=(1664525*decorSeed+1013904223)>>>0;return decorSeed/4294967296;}
-for(let i=0;i<310;i++){
- const sample=samples[Math.floor(dRand()*segments)];
- const side=dRand()<.5?-1:1;
- const offset=side*(width*.55+3+dRand()*17);
- const x=sample.p.x+sample.normal.x*offset,z=sample.p.z+sample.normal.z*offset;
- const kind=dRand();
- if(kind<.57){
-  const f=new THREE.Mesh(flowerGeo,dRand()<.5?flowerYellow:flowerBlue);
-  f.position.set(x,.18,z);f.scale.set(.7+dRand(),.65+dRand(),.7+dRand());deco.add(f);
- }else if(kind<.83){
-  const stem=new THREE.Mesh(stemGeo,stemMat);stem.position.set(x,.52,z);deco.add(stem);
-  const cap=new THREE.Mesh(capGeo,dRand()<.5?glowPink:glowCyan);
-  cap.position.set(x,1.55,z);cap.rotation.z=Math.PI;deco.add(cap);
- }else{
-  const rock=new THREE.Mesh(rockGeo,stone);rock.position.set(x,.27,z);
-  rock.scale.set(.55+dRand()*.65,.3+dRand()*.3,.45+dRand()*.55);deco.add(rock);
- }
-}
-const fireflies=[];const fireflyGeo=new THREE.SphereGeometry(.12,5,4);
-for(let i=0;i<48;i++){
- const sample=samples[Math.floor(dRand()*segments)],side=dRand()<.5?-1:1;
- const x=sample.p.x+sample.normal.x*side*(10+dRand()*19);
- const z=sample.p.z+sample.normal.z*side*(10+dRand()*19);
- const f=new THREE.Mesh(fireflyGeo,dRand()<.5?glowPink:glowCyan);
- f.position.set(x,2+dRand()*7,z);deco.add(f);fireflies.push({mesh:f,y:f.position.y,phase:dRand()*6.283});
-}
-// Rolling low-poly hills, tall crystal clusters, and a monumental arch at the track edge.
-const trimMat=mat(0xf8d45c),chrome=mat(0xb2d9e9);
-const hillMat=mat(0x5b9870),hillMat2=mat(0x83b77a);
-for(let i=0;i<52;i++){
- const a=i*2.39996,r=185+(i%4)*18;
- const h=18+(i%7)*5;
- const hill=new THREE.Mesh(new THREE.ConeGeometry(24+(i%5)*6,h,7),i%2?hillMat:hillMat2);
- hill.position.set(Math.cos(a)*r,h/2-1,Math.sin(a)*r*.86);scene.add(hill);
-}
-const gateS=samples[105],gate=new THREE.Group();
-for(const side of [-1,1]){
- const pillar=box(1.9,9,2.1,brown,side*9,4.5,0,gate);
- const gem=new THREE.Mesh(new THREE.OctahedronGeometry(1.5),side<0?glowPink:glowCyan);
- gem.position.set(side*9,9.6,0);gate.add(gem);
-}
-box(20,1.5,2.2,trimMat,0,9,0,gate);
-gate.position.copy(gateS.p);gate.rotation.y=Math.atan2(gateS.tan.x,gateS.tan.z);scene.add(gate);
 // Start/finish line across the road
 {const s=samples[0];for(let i=0;i<12;i++){const p=s.p.clone().addScaledVector(s.normal,(i-5.5)*width/12);const b=box(width/12,.045,1.8,i%2?white:mat(0x302944),p.x,.09,p.z);b.rotation.y=Math.atan2(s.tan.x,s.tan.z);}}
-const kart=new THREE.Group();scene.add(kart);const kartBlue=mat(0x48a7eb),kartLight=mat(0x9fe8fa),dark=mat(0x2b2944),yellow=mat(0xffcb50);box(2.6,.55,3.7,kartBlue,0,.62,0,kart);box(2.2,.6,1.6,kartLight,0,1.04,-.65,kart);box(1.7,.42,.8,yellow,0,.85,1.55,kart);for(const x of [-1.35,1.35])for(const z of [-1.15,1.15]){const tire=cylinder(.65,.65,.48,dark,x,.57,z,kart,12);tire.rotation.z=Math.PI/2;}sphere(.75,mat(0xf4bb8a),0,1.9,-.55,kart);sphere(.86,purple,0,2.55,-.6,kart);sphere(.27,white,-.33,2.5,-1.24,kart);sphere(.27,white,.33,2.5,-1.24,kart);sphere(.12,dark,-.33,2.5,-1.46,kart);sphere(.12,dark,.33,2.5,-1.46,kart);// Polished retro kart accessories: spoiler, headlights, and tailpipes.
-box(3.05,.17,.5,trimMat,0,1.13,1.58,kart);
-for(const x of [-.95,.95]){
- sphere(.25,flowerYellow,x,.78,1.91,kart);
- const pipe=cylinder(.20,.23,.65,chrome,x,.57,-2.01,kart,8);
- pipe.rotation.x=Math.PI/2;
-}
-// Distinctive sculpted nose, windshield, roll bar, seat and face.
-const windshield=new THREE.Mesh(new THREE.BoxGeometry(1.7,.62,.13),new THREE.MeshPhongMaterial({color:0x9ceaff,transparent:true,opacity:.64,shininess:100}));
-windshield.position.set(0,1.45,.38);windshield.rotation.x=-.3;kart.add(windshield);
-box(1.55,.28,1.05,dark,0,1.13,-.9,kart);
-for(const x of [-.85,.85]){const arch=box(.19,.75,.22,trimMat,x,1.43,-1.4,kart);arch.rotation.z=x>0?-.2:.2;}
-const nose=box(2.2,.3,.85,trimMat,0,.79,1.85,kart);nose.rotation.x=.12;
-for(const x of [-.55,.55]){sphere(.18,dark,x,1.91,-1.34,kart);sphere(.065,white,x-.045,1.97,-1.45,kart);}
-const scarf=box(.8,.16,.36,red,0,1.46,-.42,kart);
-const steering=cylinder(.48,.48,.12,dark,0,1.37,-.05,kart,12);steering.rotation.x=Math.PI/2;
+const kart=new THREE.Group();scene.add(kart);const kartBlue=mat(0x48a7eb),kartLight=mat(0x9fe8fa),dark=mat(0x2b2944),yellow=mat(0xffcb50);box(2.6,.55,3.7,kartBlue,0,.62,0,kart);box(2.2,.6,1.6,kartLight,0,1.04,-.65,kart);box(1.7,.42,.8,yellow,0,.85,1.55,kart);for(const x of [-1.35,1.35])for(const z of [-1.15,1.15]){const tire=cylinder(.65,.65,.48,dark,x,.57,z,kart,12);tire.rotation.z=Math.PI/2;}sphere(.75,mat(0xf4bb8a),0,1.9,-.55,kart);sphere(.86,purple,0,2.55,-.6,kart);sphere(.27,white,-.33,2.5,-1.24,kart);sphere(.27,white,.33,2.5,-1.24,kart);sphere(.12,dark,-.33,2.5,-1.46,kart);sphere(.12,dark,.33,2.5,-1.46,kart);const steering=cylinder(.48,.48,.12,dark,0,1.37,-.05,kart,12);steering.rotation.x=Math.PI/2;
+// Extra low-poly kart detailing, safely isolated from gameplay logic.
+const goldTrim=new THREE.MeshLambertMaterial({color:0xf3c95d});
+const glassMat=new THREE.MeshPhongMaterial({color:0x8ee4f4,transparent:true,opacity:.65});
+const windscreen=new THREE.Mesh(new THREE.BoxGeometry(1.7,.58,.12),glassMat);
+windscreen.position.set(0,1.45,.3);windscreen.rotation.x=-.25;kart.add(windscreen);
+const spoiler=new THREE.Mesh(new THREE.BoxGeometry(3,.16,.45),goldTrim);
+spoiler.position.set(0,1.2,1.7);kart.add(spoiler);
+for(const x of [-.8,.8]){const light=new THREE.Mesh(new THREE.SphereGeometry(.23,8,6),goldTrim);light.position.set(x,.85,1.91);kart.add(light)}
+// Real downloadable GLB asset, not procedural boxes. Retain the tested kart
+// as a fallback until the asset finishes loading successfully.
+const modelStatus=document.createElement('div');
+modelStatus.style.cssText='position:fixed;left:50%;top:105px;transform:translateX(-50%);padding:5px 10px;border-radius:8px;background:#1b2649c9;color:#fff;font:700 11px system-ui;pointer-events:none;z-index:2';
+modelStatus.textContent='Loading detailed 3D kart…';document.body.append(modelStatus);
+new GLTFLoader().load('./assets/bluebell_kart.glb',gltf=>{
+ const detailed=gltf.scene;
+ // GLB was authored in game units and uses the same +Z forward direction.
+ kart.add(detailed);
+ for(const old of [...kart.children])if(old!==detailed)old.visible=false;
+ modelStatus.textContent='✓ Detailed 3D kart loaded';
+ setTimeout(()=>modelStatus.remove(),3500);
+},undefined,error=>{
+ console.warn('Kart model failed to load',error);
+ modelStatus.textContent='3D asset unavailable — using original kart';
+});
 let pos=samples[0].p.clone();pos.addScaledVector(samples[0].normal,0);let heading=Math.atan2(samples[0].tan.x,samples[0].tan.z),velocity=0,lap=1,progress=0,started=false,finished=false,startTime=0,last=performance.now(),elapsed=0;const keys={left:false,right:false,gas:false,brake:false};let analogSteer=0,analogThrottle=0,drifting=false,driftCharge=0,boostTime=0,driftEntrySpeed=0,boostFloor=0;const joy=document.querySelector('#joystick'),stick=document.querySelector('#stick');let joyPointer=null;function moveJoy(e){const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,max=(r.width-62)/2;const dx=e.clientX-cx,dy=e.clientY-cy,scale=Math.min(1,max/Math.max(1,Math.hypot(dx,dy)));const x=dx*scale,y=dy*scale;stick.style.transform=`translate(calc(-50% + ${x}px),calc(-50% + ${y}px))`;analogSteer=Math.abs(x/max)<.08?0:THREE.MathUtils.clamp(x/max,-1,1);}joy.addEventListener('pointerdown',e=>{e.preventDefault();joyPointer=e.pointerId;joy.setPointerCapture(e.pointerId);moveJoy(e)});joy.addEventListener('pointermove',e=>{if(e.pointerId===joyPointer)moveJoy(e)});function resetJoy(e){if(joyPointer!==null&&e.pointerId!==joyPointer)return;joyPointer=null;analogSteer=0;stick.style.transform='translate(-50%,-50%)'}joy.addEventListener('pointerup',resetJoy);joy.addEventListener('pointercancel',resetJoy);joy.addEventListener('lostpointercapture',resetJoy);const throttle=document.querySelector('#throttle'),throttlePad=document.querySelector('#throttle-pad'),throttleThumb=document.querySelector('#throttle-thumb');let throttlePointer=null;function moveThrottle(e){const r=throttle.getBoundingClientRect(),center=r.top+r.height/2,range=(r.height-53)/2;const dy=THREE.MathUtils.clamp(e.clientY-center,-range,range);throttleThumb.style.top=`calc(50% + ${dy}px)`;let amount=-dy/range;analogThrottle=Math.abs(amount)<.10?0:THREE.MathUtils.clamp(amount,-1,1);
  // A single finger controls both axes: vertical = speed, horizontal = drift.
  // Preserve the chosen vertical speed while dragging into the drift zone.
@@ -148,9 +94,7 @@ function setDrift(on){
 
 const keyMap={ArrowLeft:'left',a:'left',A:'left',ArrowRight:'right',d:'right',D:'right',ArrowUp:'gas',w:'gas',W:'gas',ArrowDown:'brake',s:'brake',S:'brake',' ':'brake',Shift:'drift'};addEventListener('keydown',e=>{if(keyMap[e.key]){keys[keyMap[e.key]]=true;if(keyMap[e.key]==='drift')setDrift(true);e.preventDefault();}});addEventListener('keyup',e=>{if(keyMap[e.key]){keys[keyMap[e.key]]=false;if(keyMap[e.key]==='drift')setDrift(false);e.preventDefault();}});for(const b of document.querySelectorAll('[data-key]')){const key=b.dataset.key;const press=e=>{e.preventDefault();b.setPointerCapture?.(e.pointerId);keys[key]=true;b.classList.add('active')},release=e=>{e.preventDefault();keys[key]=false;b.classList.remove('active')};b.addEventListener('pointerdown',press);b.addEventListener('pointerup',release);b.addEventListener('pointercancel',release);b.addEventListener('lostpointercapture',release);}addEventListener('blur',()=>{Object.keys(keys).forEach(k=>keys[k]=false);analogSteer=0;analogThrottle=0;setDrift(false);throttlePointer=null;throttleThumb.style.top="50%";joyPointer=null;stick.style.transform='translate(-50%,-50%)'});document.querySelector('#start').onclick=()=>{document.querySelector('#intro').style.display='none';started=true;startTime=performance.now();};
 function nearestTrack(p){let best=Infinity,index=0;for(let i=0;i<segments;i++){const s=samples[i];const dx=s.p.x-p.x,dz=s.p.z-p.z,dist=dx*dx+dz*dz;if(dist<best){best=dist;index=i;}}return {dist:Math.sqrt(best),index};}
-function update(dt,now){
-for(const f of fireflies)f.mesh.position.y=f.y+Math.sin(now*.0016+f.phase)*.4;
-if(impactCooldown>0)impactCooldown=Math.max(0,impactCooldown-dt);if(started&&!finished){const near=nearestTrack(pos);const offroad=near.dist>width/2;const top=offroad&&!drifting?23:34;const throttleInput=keys.gas?1:keys.brake?0:analogThrottle;
+function update(dt,now){if(impactCooldown>0)impactCooldown=Math.max(0,impactCooldown-dt);if(started&&!finished){const near=nearestTrack(pos);const offroad=near.dist>width/2;const top=offroad&&!drifting?23:34;const throttleInput=keys.gas?1:keys.brake?0:analogThrottle;
 // The lever selects a desired cruising speed, not just engine power.
 // Smoothly approach that speed so partial lever travel holds a slower pace.
 const deadzone=.10;
